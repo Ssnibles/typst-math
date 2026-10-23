@@ -1,0 +1,360 @@
+:root {
+  color-scheme: dark;
+
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-raised: #1a2028;
+  --panel-raised-hover: #212730;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #6e7681;
+  --hint: #484f58;
+  --accent: #58a6ff;
+  --accent-soft: rgba(88, 166, 255, 0.24);
+  --selection: rgba(88, 166, 255, 0.35);
+  --error: #ff7b72;
+  --grid-dot: rgba(230, 237, 243, 0.045);
+
+  --radius: 10px;
+  --radius-small: 5px;
+  /* Kept in step with the fallback in ui/config.js. */
+  --divider-size: 14px;
+  --scrollbar-size: 10px;
+
+  /* Syntax palette. */
+  --syntax-func: #d2a8ff;
+  --syntax-symbol: #79c0ff;
+  --syntax-greek: #ffa657;
+  --syntax-number: #7ee787;
+  --syntax-op: #ff7b72;
+  --syntax-attach: #f778ba;
+  --syntax-bracket: #8b949e;
+  --syntax-delim: #6e7681;
+  --syntax-code: #a5d6ff;
+  --syntax-comment: #6e7681;
+
+  --mono: ui-monospace, "JetBrains Mono", "Fira Code", "DejaVu Sans Mono",
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------------ */
+/* Workspace                                                          */
+/* ------------------------------------------------------------------ */
+
+.workspace {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  gap: 0;
+  padding: 14px;
+}
+
+#app[data-split="rows"] .workspace {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--pane-size, 168px) var(--divider-size) minmax(0, 1fr);
+}
+
+#app[data-split="columns"] .workspace {
+  grid-template-columns: var(--pane-size, 380px) var(--divider-size) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.pane {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* ------------------------------------------------------------------ */
+/* Editor                                                             */
+/* ------------------------------------------------------------------ */
+
+.editor-card {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 14px;
+}
+
+.card-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 20px;
+  margin-bottom: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.layout-switch {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.layout-btn {
+  width: 26px;
+  height: 20px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: var(--panel-raised);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.layout-btn:hover {
+  background: var(--panel-raised-hover);
+}
+
+.layout-btn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.layout-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* The textarea and the highlight layer must share every font metric. */
+.editor-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.highlight,
+#input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.55;
+  tab-size: 4;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.highlight {
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--text);
+}
+
+.highlight code {
+  font: inherit;
+}
+
+#input {
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text);
+  resize: none;
+  outline: none;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+#input::-webkit-scrollbar {
+  display: none;
+}
+
+#input::selection {
+  background: var(--selection);
+}
+
+/* Syntax palette. */
+.k-text { color: var(--text); }
+.k-func { color: var(--syntax-func); }
+.k-symbol { color: var(--syntax-symbol); }
+.k-greek { color: var(--syntax-greek); }
+.k-number { color: var(--syntax-number); }
+.k-op { color: var(--syntax-op); }
+.k-attach { color: var(--syntax-attach); }
+.k-bracket { color: var(--syntax-bracket); }
+.k-delim { color: var(--syntax-delim); }
+.k-code { color: var(--syntax-code); }
+.k-str { color: var(--syntax-code); }
+.k-comment { color: var(--syntax-comment); font-style: italic; }
+
+/* ------------------------------------------------------------------ */
+/* Divider                                                            */
+/* ------------------------------------------------------------------ */
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  outline: none;
+}
+
+#app[data-split="rows"] .divider {
+  cursor: row-resize;
+}
+
+#app[data-split="columns"] .divider {
+  cursor: col-resize;
+}
+
+.grip {
+  background: var(--border);
+  border-radius: 2px;
+  transition: background-color 120ms ease, transform 120ms ease;
+}
+
+#app[data-split="rows"] .grip {
+  width: 44px;
+  height: 4px;
+}
+
+#app[data-split="columns"] .grip {
+  width: 4px;
+  height: 44px;
+}
+
+.divider:hover .grip,
+.divider.dragging .grip,
+.divider:focus-visible .grip {
+  background: var(--accent);
+}
+
+.divider:hover .grip {
+  transform: scale(1.15);
+}
+
+/* ------------------------------------------------------------------ */
+/* Preview                                                            */
+/* ------------------------------------------------------------------ */
+
+.preview-card {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background-image: radial-gradient(
+    circle,
+    var(--grid-dot) 1px,
+    transparent 1.2px
+  );
+  background-size: 20px 20px;
+  background-position: 10px 10px;
+}
+
+.preview-math {
+  position: absolute;
+  inset: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.preview-math svg {
+  display: block;
+}
+
+.preview-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--hint);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Errors                                                             */
+/* ------------------------------------------------------------------ */
+
+.error-card {
+  flex: 0 0 auto;
+  margin: 0 14px 14px;
+  max-height: clamp(96px, 30vh, 240px);
+  overflow: auto;
+  padding: 10px 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--error);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  user-select: text;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-small);
+}

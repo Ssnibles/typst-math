@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Typst Math</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app" class="app" data-split="rows">
+      <main class="workspace">
+        <section class="pane editor-pane">
+          <div class="card editor-card">
+            <header class="card-head">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="title">TYPST MATH</span>
+              <div class="layout-switch" role="group" aria-label="Layout">
+                <button
+                  type="button"
+                  class="layout-btn"
+                  data-layout="rows"
+                  title="Stacked layout"
+                  aria-label="Stacked layout"
+                >
+                  <svg viewBox="0 0 14 10" width="14" height="10" aria-hidden="true">
+                    <rect x="0" y="0" width="14" height="4" rx="1" fill="currentColor" />
+                    <rect x="0" y="6" width="14" height="4" rx="1" fill="currentColor" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="layout-btn"
+                  data-layout="columns"
+                  title="Side-by-side layout"
+                  aria-label="Side-by-side layout"
+                >
+                  <svg viewBox="0 0 14 10" width="14" height="10" aria-hidden="true">
+                    <rect x="0" y="0" width="5" height="10" rx="1" fill="currentColor" />
+                    <rect x="9" y="0" width="5" height="10" rx="1" fill="currentColor" />
+                  </svg>
+                </button>
+              </div>
+            </header>
+
+            <div class="editor-wrap">
+              <pre id="highlight" class="highlight" aria-hidden="true"><code></code></pre>
+              <textarea
+                id="input"
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="off"
+                autocorrect="off"
+                aria-label="Typst maths source"
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div
+          id="divider"
+          class="divider"
+          role="separator"
+          tabindex="0"
+          aria-orientation="horizontal"
+          aria-label="Resize editor and preview"
+        >
+          <span class="grip" aria-hidden="true"></span>
+        </div>
+
+        <section class="pane preview-pane">
+          <div class="card preview-card">
+            <div id="preview-math" class="preview-math"></div>
+            <div id="preview-hint" class="preview-hint">type some math</div>
+          </div>
+        </section>
+      </main>
+
+      <section id="error" class="error-card" hidden></section>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
